@@ -51,6 +51,8 @@ osThreadId defaultTaskHandle;
 osThreadId ledTaskHandle;
 osThreadId buzzerTaskHandle;
 osThreadId servoTaskHandle;
+osThreadId controlTaskHandle;
+osThreadId plotTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -61,6 +63,8 @@ void StartDefaultTask(void const * argument);
 extern void led_task(void const * argument);
 extern void buzzer_task(void const * argument);
 extern void servo_task(void const * argument);
+extern void control_task(void const * argument);
+extern void plot_task(void const * argument);
 
 extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -123,6 +127,14 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of servoTask */
   osThreadDef(servoTask, servo_task, osPriorityNormal, 0, 512);
   servoTaskHandle = osThreadCreate(osThread(servoTask), NULL);
+
+  /* definition and creation of controlTask */
+  osThreadDef(controlTask, control_task, osPriorityRealtime, 0, 1024);
+  controlTaskHandle = osThreadCreate(osThread(controlTask), NULL);
+
+  /* definition and creation of plotTask */
+  osThreadDef(plotTask, plot_task, osPriorityLow, 0, 128);
+  plotTaskHandle = osThreadCreate(osThread(plotTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
