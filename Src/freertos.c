@@ -48,6 +48,9 @@
 
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
+osThreadId ledTaskHandle;
+osThreadId buzzerTaskHandle;
+osThreadId servoTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -55,6 +58,9 @@ osThreadId defaultTaskHandle;
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
+extern void led_task(void const * argument);
+extern void buzzer_task(void const * argument);
+extern void servo_task(void const * argument);
 
 extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -105,6 +111,18 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of defaultTask */
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+
+  /* definition and creation of ledTask */
+  osThreadDef(ledTask, led_task, osPriorityLow, 0, 128);
+  ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
+
+  /* definition and creation of buzzerTask */
+  osThreadDef(buzzerTask, buzzer_task, osPriorityLow, 0, 128);
+  buzzerTaskHandle = osThreadCreate(osThread(buzzerTask), NULL);
+
+  /* definition and creation of servoTask */
+  osThreadDef(servoTask, servo_task, osPriorityNormal, 0, 512);
+  servoTaskHandle = osThreadCreate(osThread(servoTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
