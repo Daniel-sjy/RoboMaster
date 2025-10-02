@@ -1,29 +1,22 @@
+#include "can/can.hpp"
 #include "cmsis_os.h"
 #include "io/plotter/plotter.hpp"
-#include "can/can.hpp"
 #include "motor/motor.hpp"
 #include "uart/uart.hpp"
+
+extern sp::DBus remote;
+
+extern sp::RM_Motor rm_motor_lf;
+extern sp::RM_Motor rm_motor_lb;
+extern sp::RM_Motor rm_motor_rf;
+extern sp::RM_Motor rm_motor_rb;
 
 sp::Plotter plotter(&huart1);
 
 extern "C" void plot_task()
 {
   while (true) {
-    plotter.plot(
-
-      lk_motor_x.angle,
-      lk_motor_x.speed,
-      lk_motor_x.torque,
-
-      // rm_motor_x.angle,
-      // rm_motor_x.speed,
-      // rm_motor_x.torque,
-
-      dm_motor_x.angle,
-      dm_motor_x.speed,
-      dm_motor_x.torque
-    
-    );
+    plotter.plot(remote.ch_lv, rm_motor_lf.speed);
 
     osDelay(10);  // 100Hz
   }
