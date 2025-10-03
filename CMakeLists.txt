@@ -68,6 +68,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     sp_middleware/motor/dm_motor/dm_motor.cpp
     sp_middleware/motor/lk_motor/lk_motor.cpp
     sp_middleware/motor/rm_motor/rm_motor.cpp
+    sp_middleware/motor/super_cap/super_cap.cpp
     
     sp_middleware/tools/math_tools/math_tools.cpp
     sp_middleware/tools/pid/pid.cpp

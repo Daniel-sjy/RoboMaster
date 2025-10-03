@@ -46,9 +46,9 @@ extern "C" void servo_task(void const * argument)
 
     // 确保最终停在 180.0 度
     servo.set(END_ANGLE);
+  }
 
-    while (true) {
-      osDelay(100);
-    }
+  while (true) {
+    osDelay(100);
   }
 }
